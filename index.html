@@ -37,6 +37,70 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
 <style>
+
+  /* ============================================================================
+     DESIGN SYSTEM OVERVIEW (read this before reusing any piece elsewhere)
+     ----------------------------------------------------------------------------
+     COLOR PALETTE (all custom properties below, reused across every domain):
+       --bg / --paper   page background vs. card/panel background (paper is
+                         the lighter of the two, giving cards a lifted feel
+                         against the page without a visible shadow).
+       --ink / --ink-soft  primary text vs. secondary/muted text (labels,
+                         captions, helper copy).
+       --line            hairline borders on cards, dividers, dashed guides.
+       --crimson (+ --crimson-dark, --crimson-tint)
+                         THE accent color: active/selected state on toggle
+                         buttons, primary call-to-action buttons, headings'
+                         accent word. crimson-tint is its pale background
+                         wash (e.g. hover states); crimson-dark is for text
+                         on light backgrounds where full crimson is too weak.
+       --wave-top        secondary accent (blue) used specifically for
+                         "state" indicators -- a state box's border/text, a
+                         probability figure, the moving marker in the qubit
+                         lab. Keeping this visually distinct from crimson
+                         lets a reader separate "this is a control you can
+                         press" (crimson) from "this is data being shown"
+                         (blue) at a glance.
+       --gold            sparing highlight accent (rarely used; reserve for
+                         genuinely special emphasis).
+       --good / --bad    green/red feedback color for success/failure states
+                         (a correct quiz answer, a lost streak, a passed vs.
+                         blocked photon).
+       --element-fill / --element-stroke
+                         the dark tint for a "measurement" element's icon
+                         (see .element-square below) -- distinct from the
+                         crimson/blue accents since it's neither a control
+                         nor live data, just a fixed diagram piece.
+     TYPOGRAPHY:
+       --serif    (Georgia) -- used sparingly, for the italic "eyebrow" line
+                  above the main heading; gives the page a printed, textbook
+                  feel for that one line without making body text harder to
+                  scan.
+       --sans     (Verdana/Geneva) -- everything else: labels, buttons,
+                  body copy, diagram text. Chosen for its clarity at small
+                  sizes rather than for style.
+       --display  (Barlow Condensed) -- headings and short uppercase labels
+                  (panel section labels, mode-switch buttons, card titles)
+                  that need to read as UI chrome, not body text; condensed
+                  width keeps uppercase labels from feeling bulky.
+     REUSABLE STRUCTURAL PATTERNS (see their rules below for exact CSS):
+       .panel        the base "card" container for every major content
+                     block -- paper background, hairline border, rounded
+                     corners, no shadow beyond a 1px hint. Nest anything
+                     inside it and it reads as "one section of the page".
+       .mode-switch  a pill-shaped segmented control (rounded-full container,
+                     borderless buttons, active = solid crimson fill + white
+                     text) -- used for every exclusive-choice toggle in this
+                     project: Build/Quiz/Game, the domain selector, the
+                     speed selector, Polarizers-Only/Rotators, etc. This is
+                     the single most reusable interactive pattern here.
+       element icon  see the large comment above elementMarkup() in the
+                     Polarization domain's own script for the anatomy of a
+                     diagram element's icon (the square + rotated axis/
+                     arrow + title-above/label-below layout) -- that's the
+                     pattern to copy for any new "thing in the diagram".
+     ============================================================================ */
+
   :root{
     --bg: #faf8f3;
     --paper: #ffffff;
@@ -82,6 +146,10 @@
   h1{ font-family: var(--display); font-weight: 700; font-size: 36px; margin: 0; letter-spacing: 0.01em; }
   h1 .accent{ color: var(--crimson); }
   .header-logo{ height: 42px; width: auto; flex-shrink: 0; }
+  /* Reusable pill/segmented-control pattern for any exclusive-choice
+     toggle -- see the DESIGN SYSTEM OVERVIEW comment above for context.
+     Structure: a rounded-full flex container with borderless buttons;
+     add/remove ".active" on a button to change the selection. */
   .mode-switch{
     display:inline-flex; gap:0; border: 1.5px solid var(--ink); border-radius: 999px; overflow:hidden;
     background: var(--paper); flex-shrink:0;
@@ -93,6 +161,9 @@
   }
   .mode-switch button.active{ background: var(--crimson); color:#fff; }
   .mode-switch button:not(.active):hover{ background: var(--crimson-tint); }
+  /* Reusable "card" container for any major content block -- see the
+     DESIGN SYSTEM OVERVIEW comment above. Just wrap content in a div with
+     this class to get the page's standard section styling. */
   .panel{
     background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
     padding: 18px 18px 20px;
@@ -187,16 +258,29 @@
   #domain-polarization .state-line { stroke: var(--wave-top); }
   #domain-polarization .state-ellipse { fill: none; stroke: var(--wave-top); stroke-width: 3; }
   #domain-polarization .ref-cross { stroke: #c9c2b0; stroke-width: 1; stroke-dasharray: 3 4; }
+  /* Icon title (above) and angle/state label (below) -- see the big
+     "ELEMENT ICON ANATOMY" comment above elementMarkup() for how these fit
+     into the full icon, and why el-angle-label needs its own id. */
   #domain-polarization .el-title { font: 700 10.5px var(--sans); fill: var(--ink-soft); text-anchor:middle; text-transform:uppercase; letter-spacing:.03em; }
   #domain-polarization .el-angle-label { font: 700 13px var(--sans); fill: var(--ink); text-anchor:middle; }
   #domain-polarization .el-gate-label { font: 700 10px var(--sans); fill: var(--ink-soft); text-anchor:middle; }
   #domain-polarization .absorbed-mark { font: 700 26px var(--sans); fill: var(--bad); text-anchor:middle; }
   #domain-polarization .next-object-slot { fill:#fff; stroke:var(--ink-soft); stroke-width:1.5; stroke-dasharray:4 3; }
   #domain-polarization .pct-label { font: 700 14px var(--sans); fill: var(--wave-top); text-anchor:middle; }
+  /* Fill colors for the reusable SVG <marker> arrowheads (defined once,
+     referenced everywhere via marker-start/end="url(#arrow-<color>)"). */
   #domain-polarization .arrowhead-blue { fill: var(--wave-top); }
   #domain-polarization .arrowhead-white { fill: #ffffff; }
   #domain-polarization .arrowhead-black { fill: var(--ink); }
 
+  /* Element icon "square" faces -- one of these fills the rotated icon
+     group described in the "ELEMENT ICON ANATOMY" comment. Each element
+     TYPE gets its own tint so the diagram reads at a glance: dark/opaque
+     for a polarizer or light source (the thing that measures/emits),
+     pale blue for a wave-plate/gate (the thing that transforms), near-
+     white for a no-op "glass" element. Reuse this convention (dark =
+     measurement, tinted = transformation, white = identity) for any new
+     element type. */
   #domain-polarization .element-square { fill: var(--element-fill); stroke: var(--element-stroke); stroke-width: 1.5; }
   #domain-polarization .waveplate-square { fill: #cfe9f7; stroke: #7fb3d0; stroke-width: 1.5; }
   #domain-polarization .glass-square { fill: #fff; stroke: #7fb3d0; stroke-width: 1.5; }
@@ -1635,6 +1719,52 @@
     }
   }
 
+  // ==========================================================================
+  // ELEMENT ICON ANATOMY (design reference for reuse elsewhere)
+  // --------------------------------------------------------------------------
+  // Every element in the diagram -- Light Source, Polarizer, Half-/Quarter-
+  // Wave Plate -- is drawn as one SVG <g class="element-tile"> containing
+  // three layered pieces, always in this order:
+  //
+  //   1. A square "icon" group (id="element-icon-<id>"), ROTATED by
+  //      transform="rotate(-angle)" around its own local (0,0) origin so the
+  //      whole icon (square + whatever's drawn inside it) visually spins to
+  //      match the element's angle. Rotation is negated because screen Y
+  //      grows downward while the angle convention here treats increasing
+  //      angle as visually counter-clockwise.
+  //      Inside that rotated group is one of three interchangeable "faces",
+  //      chosen by element type/state -- this is the reusable pattern:
+  //        - Half-/quarter-wave plate: a lightly-tinted square
+  //          (.waveplate-square / .qwp-square) with a "+"-shaped pair of
+  //          axis lines (fast axis horizontal, slow axis vertical) -- the
+  //          axis lines DON'T change when the plate is swapped for
+  //          circular light, unlike a polarizer's icon (see below).
+  //        - A circular light source / circular polarizer: a dark square
+  //          (.element-square) containing a small circle with two curved
+  //          "handedness" arrows (see circularIconMarkup), showing which
+  //          way the polarization rotates.
+  //        - A linear polarizer / light source: a dark square
+  //          (.element-square) with one double-headed arrow line through
+  //          the middle (marker-start/marker-end="url(#arrow-white)"),
+  //          showing the transmission axis. This is the simplest, most
+  //          reusable version of the pattern: box + one rotated axis line.
+  //   2. A title <text class="el-title"> centered ABOVE the icon (y-44),
+  //      small/uppercase/muted -- names the element ("Polarizer 1", etc).
+  //   3. An angle/state <text class="el-angle-label" id="element-label-<id>">
+  //      centered BELOW the icon (y+54) -- shows the current numeric angle
+  //      (formatAngle) OR, for a circular element, the word "Right"/"Left".
+  //      This label has its own id because it's sometimes updated in place
+  //      (without redrawing the whole icon) when just the angle changes --
+  //      see updateElementVisuals(), which must special-case el.circular
+  //      the same way this function does, or the label goes stale.
+  //
+  // The arrowhead shapes themselves (id="arrow-blue"/"arrow-white"/
+  // "arrow-black") are defined once, near the top of <body>, in a
+  // <marker> block reused by every arrow/line in the whole diagram via
+  // marker-start/marker-end="url(#...)" -- that's the reusable "arrowhead
+  // library" for this design system; see the persistent
+  // <svg width="0" height="0"> block that holds them.
+  // ==========================================================================
   function elementMarkup(el, idx, x, y){
     const label = elementLabel(el, idx);
     let iconInner;
@@ -1760,7 +1890,7 @@
         const x = layout.elX[idx];
         g.setAttribute("transform", `translate(${x},${BEAM_Y}) rotate(${-el.angle})`);
       }
-      if (label) label.textContent = formatAngle(el.angle);
+      if (label) label.textContent = el.circular ? (el.circular === "R" ? "Right" : "Left") : formatAngle(el.angle);
     });
   }
 
@@ -3826,7 +3956,7 @@
   function measurementBasisAngleOrCircular(basis, outcome){
     if (basis === "Z") return { angle: outcome === 0 ? 0 : 90, circular: null };
     if (basis === "X") return { angle: outcome === 0 ? 45 : -45, circular: null };
-    return { angle: null, circular: outcome === 0 ? "R" : "L" }; // Y
+    return { angle: null, circular: outcome === 0 ? "L" : "R" }; // Y: outcome 0 = |+i> = (1, i)/sqrt2
   }
   function measurementProbs(v, basis){
     if (v === DECOHERED) return { p0: 0.5, p1: 0.5 }; // random regardless of basis
@@ -3851,8 +3981,12 @@
     [ketTex("1"), jonesFromAngle(90)],
     [ketTex("+"), jonesFromAngle(45)],
     [ketTex("-"), jonesFromAngle(-45)],
-    [ketTex("+_i"), jonesCircular("R")],
-    [ketTex("-_i"), jonesCircular("L")]
+    // |+i> = (|0> + i|1>)/sqrt2 and |-i> = (|0> - i|1>)/sqrt2, the standard
+    // definitions (|+i> is Y's +1 eigenstate). jonesCircular() uses the
+    // optics (Hecht) handedness convention, where "R" = (1, -i)/sqrt2, so
+    // |+i> is the "L" vector here and |-i> the "R" one.
+    [ketTex("+_i"), jonesCircular("L")],
+    [ketTex("-_i"), jonesCircular("R")]
   ];
   function ketLabel(v){
     if (v === DECOHERED) return "?";
@@ -3863,7 +3997,7 @@
     return ketTex("\\psi"); // should not happen given the closed set above
   }
   function ketSymbol(el){
-    if (el.circular) return el.circular === "R" ? "+_i" : "-_i";
+    if (el.circular) return el.circular === "L" ? "+_i" : "-_i"; // see CANON_KETS
     return { 0: "0", 90: "1", 45: "+", "-45": "-" }[el.angle];
   }
   function projectorKatex(sym){ return `\\bigl|${KERN}${sym}\\bigr\\rangle\\bigl\\langle${sym}${KERN}\\bigr|`; }
@@ -3891,8 +4025,8 @@
     { sym: "1", angle: 90, circular: null },
     { sym: "+", angle: 45, circular: null },
     { sym: "-", angle: -45, circular: null },
-    { sym: "+_i", angle: null, circular: "R" },
-    { sym: "-_i", angle: null, circular: "L" }
+    { sym: "+_i", angle: null, circular: "L" },
+    { sym: "-_i", angle: null, circular: "R" }
   ];
   // The two basis-change unitaries sit between Hadamard and Identity/
   // Decoherence -- they need complex numbers to be meaningful (they map
