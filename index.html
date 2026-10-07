@@ -329,14 +329,14 @@
   #domain-polarization .ec-actions { display:flex; align-items:center; gap:5px; flex-shrink:0; }
   #domain-polarization .pol-remove { border:1.5px solid var(--ink-soft); background:#fff; color:var(--ink-soft); width:20px; height:20px; border-radius:50%; font:700 10px var(--sans); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
   #domain-polarization .pol-remove:hover { border-color:var(--bad); color:var(--bad); }
-  #domain-polarization .pol-convert { border:1.5px solid #7fb3d0; background:#fff; color:#3d7fa3; width:20px; height:20px; border-radius:50%; font:700 11px var(--sans); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  #domain-polarization .pol-convert { border:1.5px solid #7fb3d0; background:#fff; color:#33729a; width:20px; height:20px; border-radius:50%; font:700 11px var(--sans); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
   #domain-polarization .pol-convert:hover { background:#e4f2fa; }
 
   #domain-polarization .insert-btn {
     position:absolute; top:110px; width:24px; height:24px; transform:translateX(-50%);
     border-radius:50%; border:1.5px dashed var(--ink-soft); background:#fff; color:var(--ink-soft);
     font:700 14px var(--sans); line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center;
-    opacity:.5; z-index:2;
+    opacity:.85; z-index:2; /* was .5: the "+" fell below 4.5:1 contrast */
   }
   #domain-polarization .insert-btn:hover { opacity:1; border-style:solid; border-color:var(--crimson); color:var(--crimson); background:var(--crimson-tint); }
 
@@ -425,6 +425,9 @@
   #domain-polarization .game-card-box.lost-card { border-color: var(--bad); background:#fbeceb; justify-content:center; min-height:104px; }
   #domain-polarization .game-card-box.lost-card:hover { border-color: var(--bad); background:#f6dcda; }
   #domain-polarization .game-card-box.lost-card .game-card-label { color: var(--bad); }
+  /* Hand cards are <button>s (keyboard-operable); reset button text styles. */
+  #domain-polarization button.game-card-box { font: inherit; color: inherit; text-align: center; }
+  #domain-polarization .game-card-label { display: block; }
   #domain-polarization .game-card-icon { width:66px; height:66px; display:block; }
   #domain-polarization .game-card-label { font:700 11px var(--sans); text-align:center; color:var(--ink); line-height:1.3; }
 
@@ -554,7 +557,7 @@
     position:absolute; top:64px; width:24px; height:24px; transform:translateX(-50%);
     border-radius:50%; border:1.5px dashed var(--ink-soft); background:#fff; color:var(--ink-soft);
     font:700 14px var(--sans); line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center;
-    opacity:.5; z-index:2;
+    opacity:.85; z-index:2; /* was .5: the "+" fell below 4.5:1 contrast */
   }
   #domain-spin .insert-btn:hover { opacity:1; border-style:solid; border-color:var(--crimson); color:var(--crimson); background:var(--crimson-tint); }
 
@@ -704,6 +707,10 @@
     color:#fff; font-size:16px; z-index:1; opacity:0; pointer-events:none;
     transition-property: left, top; transition-timing-function: linear; box-shadow: 0 0 0 3px rgba(178,59,59,0.18);
   }
+  /* Plain-text stand-in when KaTeX can't be used (see renderKatexIn). */
+  #domain-qubit .katex-fallback { font-family: "Times New Roman", Times, serif; font-size: 1.15em; font-weight: normal; white-space: nowrap; line-height: 1; }
+  #domain-qubit .katex-fallback sub { font-size: 0.68em; vertical-align: -0.25em; line-height: 0; }
+  #domain-qubit .katex-fallback sup { font-size: 0.68em; vertical-align: 0.5em; line-height: 0; }
   #domain-qubit .qubit-marker .katex-src { color:#fff; }
   #domain-qubit .qubit-marker-static {
     width:48px; height:48px; border-radius:50%; background: var(--bad); border:2px solid #7a1020;
@@ -839,7 +846,7 @@
   #domain-qubit .ec-actions { display:flex; align-items:center; gap:5px; flex-shrink:0; }
   #domain-qubit .pol-remove { border:1.5px solid var(--ink-soft); background:#fff; color:var(--ink-soft); width:20px; height:20px; border-radius:50%; font:700 10px var(--sans); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
   #domain-qubit .pol-remove:hover { border-color:var(--bad); color:var(--bad); }
-  #domain-qubit .pol-convert { border:1.5px solid #7fb3d0; background:#fff; color:#3d7fa3; width:20px; height:20px; border-radius:50%; font:700 11px var(--sans); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  #domain-qubit .pol-convert { border:1.5px solid #7fb3d0; background:#fff; color:#33729a; width:20px; height:20px; border-radius:50%; font:700 11px var(--sans); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
   #domain-qubit .pol-convert:hover { background:#e4f2fa; }
 
   #domain-qubit .insert-btn {
@@ -849,6 +856,8 @@
     opacity:.5; z-index:2;
   }
   #domain-qubit .insert-btn:hover { opacity:1; border-style:solid; border-color:var(--crimson); color:var(--crimson); background:var(--crimson-tint); }
+  #domain-qubit .insert-gap { flex:0 0 64px; display:flex; justify-content:center; padding-top:8px; }
+  #domain-qubit .insert-gap .insert-btn { position:static; transform:none; opacity:.85; }
 
   #domain-qubit .quick-row { display:grid; grid-template-columns: 1fr 1fr; gap:5px; margin-bottom:9px; }
   #domain-qubit .quick-row.full-width { grid-template-columns: 1fr; }
@@ -935,6 +944,9 @@
   #domain-qubit .game-card-box.lost-card { border-color: var(--bad); background:#fbeceb; justify-content:center; min-height:104px; }
   #domain-qubit .game-card-box.lost-card:hover { border-color: var(--bad); background:#f6dcda; }
   #domain-qubit .game-card-box.lost-card .game-card-label { color: var(--bad); }
+  /* Hand cards are <button>s (keyboard-operable); reset button text styles. */
+  #domain-qubit button.game-card-box { font: inherit; color: inherit; text-align: center; }
+  #domain-qubit .game-card-label { display: block; }
   #domain-qubit .game-card-icon { width:66px; height:66px; display:block; }
   #domain-qubit .game-card-label { font:700 11px var(--sans); text-align:center; color:var(--ink); line-height:1.3; }
 
@@ -954,15 +966,17 @@
     <div class="toolbar-select-block">
       <span class="domain-toolbar-label">Select Your Qubit</span>
       <div class="mode-switch" id="domain-switch"></div>
-      <div class="toolbar-select-description" id="domain-description"></div>
+      <div class="toolbar-select-description" id="domain-description" aria-live="polite"></div>
     </div>
     <div class="toolbar-select-block">
       <span class="domain-toolbar-label">Select Operation Mode</span>
       <div class="mode-switch" id="operation-mode-switch"></div>
-      <div class="toolbar-select-description" id="opmode-description"></div>
+      <div class="toolbar-select-description" id="opmode-description" aria-live="polite"></div>
     </div>
   </div>
 
+  <!-- The lab content: one panel per qubit style (only the active one is shown). -->
+  <main id="lab-main">
   <div id="domain-polarization" class="domain-panel active">
 
 <!-- Global, always-rendered marker defs. Kept outside any panel that gets
@@ -1069,7 +1083,7 @@
         </div>
       </div>
       <div class="quiz-question-col">
-        <div class="status" id="quiz-status">A photon leaves the source, horizontally polarized.</div>
+        <div class="status" id="quiz-status" role="status" aria-live="polite">A photon leaves the source, horizontally polarized.</div>
 
         <div id="quiz-q1" class="quiz-question">
           <div class="quiz-question-label">What happens to the photon at this polarizer?</div>
@@ -1265,7 +1279,7 @@
         <div class="quiz-diagram-wrap" id="quiz-diagram-wrap"></div>
       </div>
       <div class="quiz-question-col">
-        <div class="status" id="quiz-status">A qubit leaves the source in state |0&rangle;.</div>
+        <div class="status" id="quiz-status" role="status" aria-live="polite">A qubit leaves the source in state |0&rangle;.</div>
 
         <div id="quiz-q1" class="quiz-question">
           <div class="quiz-question-label">What happens to the qubit at this element?</div>
@@ -1336,8 +1350,9 @@
 
 
   </div>
+  </main>
 
-  <footer class="shell-note">Three views of the same superposition and measurement ideas &mdash; Polarization, Spin, and Qubits &mdash; built to accompany <a href="https://uwaterloo.ca/institute-for-quantum-computing/outreach/quantum-educators/teacher-resources" target="_blank" rel="noopener noreferrer"><em>The Two Golden Rules of Quantum Mechanics with Light Polarization</em></a> &mdash; IQC Scientific Outreach, University of Waterloo.</footer>
+  <footer class="shell-note">Developed by the Scientific Outreach Team at the Institute for Quantum Computing (IQC), University of Waterloo.<br>Built to accompany the teacher resource <a href="https://uwaterloo.ca/institute-for-quantum-computing/outreach/quantum-educators/teacher-resources" target="_blank" rel="noopener noreferrer"><em>The Two Golden Rules of Quantum Mechanics with Light Polarization</em></a>.<br>See related work from the <a href="https://www.st-andrews.ac.uk/physics/quvis/simulations_html5/sims/MeasurementUncertainty/measurement-outcome-uncertainty.html">QuVis project</a>.<br>The development of the user interface relied on artificial intelligence tools. Please report any issues to iqc-outreach@uwaterloo.ca.</footer>
 </div>
 
 <script>
@@ -2023,10 +2038,10 @@
       let convertBtn = "";
       if (!isSource){
         const nextType = nextElementType(el.type);
-        convertBtn = `<button class="pol-convert" data-id="${el.id}" title="Switch to ${TYPE_DISPLAY_NAME[nextType]}">&#8646;</button>`;
+        convertBtn = `<button class="pol-convert" data-id="${el.id}" title="Switch to ${TYPE_DISPLAY_NAME[nextType]}" aria-label="Switch ${label} to ${TYPE_DISPLAY_NAME[nextType]}">&#8646;</button>`;
       }
       const removeBtn = !isSource
-        ? `<button class="pol-remove" data-id="${el.id}" title="Remove">&#10005;</button>` : "";
+        ? `<button class="pol-remove" data-id="${el.id}" title="Remove" aria-label="Remove ${label}">&#10005;</button>` : "";
 
       const angleLabel = isWaveplate || isQwp ? "Axis:" : "Linear:";
 
@@ -2034,10 +2049,10 @@
       // slider/number entry, to keep the set of reachable states small.
       const angleRowHtml = isBasic ? "" : `
         <div class="angle-row">
-          <input type="range" min="-90" max="90" step="1" value="${normalizeAngle(el.angle)}" data-id="${el.id}" class="angle-slider">
+          <input type="range" min="-90" max="90" step="1" value="${normalizeAngle(el.angle)}" data-id="${el.id}" class="angle-slider" aria-label="${label} angle, in degrees">
           <div class="angle-num">
             <span class="angle-num-label">${angleLabel}</span>
-            <input type="number" value="${normalizeAngle(el.angle)}" data-id="${el.id}" class="angle-number" step="1">
+            <input type="number" value="${normalizeAngle(el.angle)}" data-id="${el.id}" class="angle-number" step="1" aria-label="${label} angle, in degrees">
             <span>&deg;</span>
           </div>
         </div>`;
@@ -2051,7 +2066,7 @@
       // a subtle "+" between (and after) every element, to insert a new
       // element at any position rather than only appending at the end
       const gapX = layout.elX[idx] + GAP / 2;
-      html += `<button class="insert-btn" data-after-id="${el.id}" style="left:${gapX}px;" title="Insert an element here">+</button>`;
+      html += `<button class="insert-btn" data-after-id="${el.id}" style="left:${gapX}px;" title="Insert an element here" aria-label="Insert an element after ${label}">+</button>`;
     });
     controlsRow.innerHTML = html;
     wireControlEvents();
@@ -2620,8 +2635,11 @@
   function quizMarkAndAdvance(btn, isCorrect, onAdvance){
     quizBusy = true;
     document.querySelectorAll(".quiz-btn").forEach(b=> b.disabled = true);
+    // Feedback is given in text as well as colour (WCAG 1.4.1), and the
+    // status line is an aria-live region, so screen readers announce it.
     if (isCorrect){
       btn.classList.add("correct");
+      quizSetStatus("Correct!");
       setTimeout(()=>{
         quizBusy = false;
         document.querySelectorAll(".quiz-btn").forEach(b=> b.disabled = false);
@@ -2629,6 +2647,7 @@
       }, 500);
     } else {
       btn.classList.add("wrong");
+      quizSetStatus("Not quite. Try again.");
       setTimeout(()=>{
         btn.classList.remove("wrong");
         document.querySelectorAll(".quiz-btn").forEach(b=> b.disabled = false);
@@ -2886,21 +2905,21 @@
     const row = document.getElementById("game-hand-row");
     if (gameLastOutcome === "lost"){
       row.innerHTML = [0, 1, 2].map(()=> `
-        <div class="game-card-box lost-card">
-          <div class="game-card-label">Start New Game</div>
-        </div>`).join("");
+        <button type="button" class="game-card-box lost-card">
+          <span class="game-card-label">Start New Game</span>
+        </button>`).join("");
       row.querySelectorAll(".game-card-box").forEach(box=>{
         box.addEventListener("click", gameStartRound);
       });
       return;
     }
     row.innerHTML = gameHand.map((el, i)=> `
-      <div class="game-card-box" data-index="${i}">
-        <svg class="game-card-icon" viewBox="-45 -45 90 90" xmlns="http://www.w3.org/2000/svg">
+      <button type="button" class="game-card-box" data-index="${i}">
+        <svg class="game-card-icon" viewBox="-45 -45 90 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
           ${svgDefs()}${quizIconMarkup(el)}
         </svg>
-        <div class="game-card-label">${gameCardName(el)}</div>
-      </div>`).join("");
+        <span class="game-card-label">${gameCardName(el)}</span>
+      </button>`).join("");
     row.querySelectorAll(".game-card-box").forEach(box=>{
       box.addEventListener("click", ()=>{
         playSound(playCardFlip);
@@ -3540,17 +3559,17 @@
         }).join("");
         html += `
         <div class="element-control" data-id="${el.id}" style="left:${layout.elX[idx]}px;">
-          <div class="ec-head"><h3>${label}</h3><div class="ec-actions"><button class="pol-remove" data-id="${el.id}" title="Remove">&#10005;</button></div></div>
+          <div class="ec-head"><h3>${label}</h3><div class="ec-actions"><button class="pol-remove" data-id="${el.id}" title="Remove" aria-label="Remove ${label}">&#10005;</button></div></div>
           <div class="quick-row">${quickBtns}</div>
           <div class="custom-angle-row">
             <span class="custom-angle-label">XZ angle:</span>
-            <input type="number" class="custom-angle-input" data-id="${el.id}" value="${el.angle}" step="1">
+            <input type="number" class="custom-angle-input" data-id="${el.id}" value="${el.angle}" step="1" aria-label="${label} custom angle, in degrees">
             <span>&deg;</span>
           </div>
         </div>`;
       }
       const gapX = layout.elX[idx] + GAP / 2;
-      html += `<button class="insert-btn" data-after-id="${el.id}" style="left:${gapX}px;" title="Insert an apparatus here">+</button>`;
+      html += `<button class="insert-btn" data-after-id="${el.id}" style="left:${gapX}px;" title="Insert an apparatus here" aria-label="Insert an apparatus after ${label}">+</button>`;
     });
     controlsRow.innerHTML = html;
     wireControlEvents();
@@ -4085,12 +4104,98 @@
 
   function wait(ms){ return new Promise(resolve => setTimeout(resolve, ms)); }
 
-  // ================= KaTeX rendering helper =================
+  // ================= KaTeX rendering, with a plain-text fallback =================
+  // Every math expression on this page goes through katexSpan() (which stores
+  // the TeX in a data-tex attribute) and then renderKatexIn(). KaTeX itself
+  // comes from a CDN, so it can be unusable in three ways:
+  //   1. its script never loaded (offline, CDN blocked, integrity mismatch);
+  //   2. its script loaded but its CSS didn't — KaTeX then emits a hidden
+  //      MathML copy that becomes visible, so every expression shows twice;
+  //   3. a single expression fails to parse.
+  // In all three cases the expression is shown as readable Unicode instead of
+  // raw TeX source: \bigl|0\bigr\rangle becomes |0⟩ (a real ⟩, not ">"),
+  // _i becomes a real subscript, \leftrightarrow becomes ↔, and so on. Each
+  // fallback also gets a spoken aria-label ("ket plus i") for screen readers;
+  // real KaTeX output already includes MathML for them.
+  let katexUsable = null; // decided once: see katexAvailable()
+  function katexAvailable(){
+    if (katexUsable !== null) return katexUsable;
+    let ok = typeof window.katex !== "undefined" && typeof window.katex.render === "function";
+    if (ok){
+      // KaTeX's stylesheet hides .katex-mathml with position:absolute; if that
+      // rule isn't in effect, the CSS didn't load (case 2). The head's
+      // stylesheets have finished loading (or failed) before this classic,
+      // parser-blocking script runs, so checking once is reliable.
+      // (window.document: in the merged lab, `document` is a scoped shim.)
+      const probe = window.document.createElement("span");
+      probe.className = "katex";
+      probe.innerHTML = '<span class="katex-mathml"></span>';
+      probe.style.position = "absolute"; probe.style.visibility = "hidden";
+      window.document.body.appendChild(probe);
+      ok = window.getComputedStyle(probe.firstChild).position === "absolute";
+      probe.remove();
+    }
+    katexUsable = ok;
+    return ok;
+  }
+
+  const TEX_SYMBOLS = {
+    rangle: "\u27e9", langle: "\u27e8", leftrightarrow: "\u2194", rightarrow: "\u2192", leftarrow: "\u2190",
+    Delta: "\u0394", psi: "\u03c8", phi: "\u03c6", theta: "\u03b8", rho: "\u03c1", alpha: "\u03b1", beta: "\u03b2",
+    pi: "\u03c0", pm: "\u00b1", cdot: "\u00b7", otimes: "\u2297", dagger: "\u2020", infty: "\u221e"
+  };
+  // Converts the (small) TeX vocabulary used on this page to safe HTML.
+  function texToPlainHTML(tex){
+    let s = tex.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    s = s.replace(/\\(?:mkern|mskip|kern)-?[\d.]+mu/g, "")                     // spacing tweaks
+         .replace(/\\textcolor\{([^}]*)\}\{([^}]*)\}/g, function(_, color, body){
+           const safe = /^#[0-9a-fA-F]{3,8}$|^[a-zA-Z]+$/.test(color) ? color : "inherit";
+           return '<span style="color:' + safe + '">' + body + "</span>";
+         })
+         .replace(/\\(?:text|mathrm|mathit|operatorname)\{([^}]*)\}/g, "$1")
+         .replace(/\\sqrt\{([^}]*)\}/g, "\u221a$1")
+         .replace(/\\([A-Za-z]+) ?/g, function(m, name){                       // named symbols first, so
+           if (TEX_SYMBOLS[name]) return TEX_SYMBOLS[name];                     // \leftrightarrow isn't read
+           if (/^(?:bigl|bigr|Bigl|Bigr|big|Big|left|right)$/.test(name)) return ""; // as \left + rightarrow
+           return name;                                                         // unknown: drop the backslash
+         })                                                                     // (" ?" eats the space TeX ignores after a command)
+         .replace(/_\{([^}]*)\}/g, "<sub>$1</sub>")
+         .replace(/_([A-Za-z0-9+\-])/g, "<sub>$1</sub>")
+         .replace(/\^\{([^}]*)\}/g, "<sup>$1</sup>")
+         .replace(/\^([A-Za-z0-9+\-])/g, "<sup>$1</sup>")
+         .replace(/[{}]/g, "")
+         .replace(/-/g, "\u2212");                                              // a true minus sign, as KaTeX renders it
+    // Math italic for Latin letters, as KaTeX does (X, H, the subscript i);
+    // digits and Greek capitals stay upright. Only text between tags is
+    // touched, and HTML entities (&lt; etc.) are left intact.
+    s = s.replace(/(^|>)([^<]+)/g, function(_, pre, text){
+      return pre + text.replace(/&[a-z]+;|[A-Za-z]+/g, function(w){ return w.charAt(0) === "&" ? w : "<i>" + w + "</i>"; });
+    });
+    return s;
+  }
+  // A spoken version for screen readers: "|+ᵢ⟩⟨+ᵢ|" -> "projector onto ket plus i".
+  function plainToSpoken(text){
+    const word = (sym) => sym.replace(/\+/g, " plus ").replace(/[-\u2212]/g, " minus ").replace(/\s+/g, " ").trim();
+    return text
+      .replace(/\|([^|\u27e8\u27e9]+)\u27e9\u27e8\1\|/g, function(_, k){ return "projector onto ket " + word(k); })
+      .replace(/\|([^|\u27e8\u27e9]+)\u27e9/g, function(_, k){ return "ket " + word(k); })
+      .replace(/\u2194/g, " to ").replace(/\u0394/g, "Delta").replace(/\u03c8/g, "psi")
+      .replace(/\s+/g, " ").trim();
+  }
+  function renderPlainFallback(node, src){
+    node.classList.add("katex-fallback");
+    node.innerHTML = texToPlainHTML(src);
+    node.setAttribute("role", "img");
+    node.setAttribute("aria-label", plainToSpoken(node.textContent));
+  }
+
   function renderKatexIn(container){
+    const usable = katexAvailable();
     container.querySelectorAll(".katex-src").forEach(function(node){
       const src = node.getAttribute("data-tex");
-      try { katex.render(src, node, { throwOnError: false }); }
-      catch (e) { node.textContent = src; }
+      if (!usable){ renderPlainFallback(node, src); return; }
+      try { window.katex.render(src, node, { throwOnError: true }); } // parse errors -> fallback below
+      catch (e) { renderPlainFallback(node, src); }
     });
   }
   function katexSpan(tex, extraClass){
@@ -4175,7 +4280,7 @@
   // transform + transition, so it animates smoothly between positions
   // rather than jumping (see .gauge-needle rules).
   function measurementDialSvg(needlePos){
-    return `<svg width="52" height="40" viewBox="0 0 52 40" xmlns="http://www.w3.org/2000/svg">
+    return `<svg width="52" height="40" viewBox="0 0 52 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
       <path d="M 8 32 A 18 18 0 0 1 44 32" fill="none" stroke="#e7e9ec" stroke-width="2.5" stroke-linecap="round"/>
       <line class="gauge-needle ${needlePos}" id="gauge-needle" x1="26" y1="32" x2="26" y2="14" stroke="#e7e9ec" stroke-width="2.5" stroke-linecap="round"/>
       <circle cx="26" cy="32" r="2.6" fill="#e7e9ec"/>
@@ -4408,7 +4513,14 @@
   function renderControlsRow(){
     let html = "";
     elements.forEach((el, idx)=>{
-      if (idx > 0) html += `<div style="flex:0 0 64px;"></div>`;
+      // The 64px spacer between cards (matching the diagram's connector
+      // width, so cards stay aligned) holds a "+" that inserts a new element
+      // right after the previous one, as in Polarization and Spin.
+      if (idx > 0){
+        const prev = elements[idx - 1];
+        const prevName = prev.type === "source" ? "Source" : TYPE_DISPLAY_NAME[prev.type] + " " + (idx - 1);
+        html += `<div class="insert-gap"><button class="insert-btn" data-after-id="${prev.id}" title="Insert an element here" aria-label="Insert an element after ${prevName}">+</button></div>`;
+      }
       if (el.type === "source"){
         html += `<div class="element-control" data-id="${el.id}" style="position:static; transform:none; width:140px; flex:0 0 140px;">
           <div class="ec-head"><h3>Source</h3></div>
@@ -4429,8 +4541,10 @@
           return `<button class="quick-btn${active ? " active" : ""}" data-id="${el.id}" data-kind="${p.kind}" title="${p.name}">${katexSpan(gateButtonTex(p.kind))}</button>`;
         }).join("");
       }
-      const convertBtn = `<button class="pol-convert" data-id="${el.id}" title="Switch to ${TYPE_DISPLAY_NAME[nextElementType(el.type)]}">&#8646;</button>`;
-      const removeBtn = `<button class="pol-remove" data-id="${el.id}" title="Remove">&#10005;</button>`;
+      // Icon-only buttons get full spoken names; "Gate 2" = 2nd element after the source.
+      const elName = TYPE_DISPLAY_NAME[el.type] + " " + idx;
+      const convertBtn = `<button class="pol-convert" data-id="${el.id}" title="Switch to ${TYPE_DISPLAY_NAME[nextElementType(el.type)]}" aria-label="Switch ${elName} to ${TYPE_DISPLAY_NAME[nextElementType(el.type)]}">&#8646;</button>`;
+      const removeBtn = `<button class="pol-remove" data-id="${el.id}" title="Remove" aria-label="Remove ${elName}">&#10005;</button>`;
       const rowClass = "quick-row";
       html += `<div class="element-control" data-id="${el.id}" style="position:static; transform:none; width:140px; flex:0 0 140px;">
         <div class="ec-head"><h3>${TYPE_DISPLAY_NAME[el.type]}</h3><div class="ec-actions">${convertBtn}${removeBtn}</div></div>
@@ -4439,7 +4553,7 @@
     });
     controlsRow.innerHTML = `<div style="display:flex; align-items:flex-start;">${html}
       <div style="flex:0 0 64px;"></div>
-      <button class="insert-btn" id="insert-end-btn" style="position:static; opacity:1; border-style:solid; flex:0 0 auto;" title="Add an element">+</button>
+      <button class="insert-btn" id="insert-end-btn" style="position:static; opacity:1; border-style:solid; flex:0 0 auto;" title="Add an element" aria-label="Add an element to the end">+</button>
     </div>`;
     renderKatexIn(controlsRow);
     wireControlEvents();
@@ -4476,14 +4590,24 @@
         rebuildEverything();
       });
     });
+    controlsRow.querySelectorAll(".insert-btn[data-after-id]").forEach((btn)=>{
+      btn.addEventListener("click", ()=> insertElementAfter(Number(btn.dataset.afterId)));
+    });
     const insertBtn = document.getElementById("insert-end-btn");
     if (insertBtn){
-      insertBtn.addEventListener("click", ()=>{
-        if (animBusy || elements.length >= 8) return;
-        elements.push({ id: nextId++, type: "projector", angle: 0, circular: null });
-        rebuildEverything();
-      });
+      insertBtn.addEventListener("click", ()=> insertElementAfter(elements[elements.length - 1].id));
     }
+  }
+
+  // Inserts a new projector (onto |0>) right after the element with id
+  // `afterId`: from an in-between "+" button, or after the last element (just
+  // before the measurement) from the end button. Same 8-element limit as before.
+  function insertElementAfter(afterId){
+    if (animBusy || elements.length >= 8) return;
+    const idx = elements.findIndex(e => e.id === afterId);
+    if (idx === -1) return;
+    elements.splice(idx + 1, 0, { id: nextId++, type: "projector", angle: 0, circular: null });
+    rebuildEverything();
   }
 
   function rebuildEverything(){
@@ -4781,8 +4905,11 @@
   function quizMarkAndAdvance(btn, isCorrect, onAdvance){
     quizBusy = true;
     document.querySelectorAll(".quiz-btn").forEach(b=> b.disabled = true);
+    // Feedback is given in text as well as colour (WCAG 1.4.1), and the
+    // status line is an aria-live region, so screen readers announce it.
     if (isCorrect){
       btn.classList.add("correct");
+      quizSetStatus("Correct!");
       setTimeout(()=>{
         quizBusy = false;
         document.querySelectorAll(".quiz-btn").forEach(b=> b.disabled = false);
@@ -4790,6 +4917,7 @@
       }, 500);
     } else {
       btn.classList.add("wrong");
+      quizSetStatus("Not quite. Try again.");
       setTimeout(()=>{
         btn.classList.remove("wrong");
         document.querySelectorAll(".quiz-btn").forEach(b=> b.disabled = false);
@@ -4973,10 +5101,10 @@
   function renderGameHand(){
     const row = document.getElementById("game-hand-row");
     row.innerHTML = gameHand.map((el, i)=> `
-      <div class="game-card-box" data-index="${i}">
-        <div class="qubit-box ${el.type}-box" style="width:64px; height:64px; font-size:15px;">${katexSpan(elementKatex(el))}</div>
-        <div class="game-card-label">${gameCardName(el)}</div>
-      </div>`).join("");
+      <button type="button" class="game-card-box" data-index="${i}">
+        <span class="qubit-box ${el.type}-box" style="width:64px; height:64px; font-size:15px;" aria-hidden="true">${katexSpan(elementKatex(el))}</span>
+        <span class="game-card-label">${gameCardName(el)}</span>
+      </button>`).join("");
     renderKatexIn(row);
     row.querySelectorAll(".game-card-box").forEach(box=>{
       box.addEventListener("click", ()=>{
@@ -5056,7 +5184,7 @@
   }
   function renderGameHandLost(){
     const row = document.getElementById("game-hand-row");
-    row.innerHTML = [0,1,2].map(()=> `<div class="game-card-box lost-card"><div class="game-card-label">Start New Game</div></div>`).join("");
+    row.innerHTML = [0,1,2].map(()=> `<button type="button" class="game-card-box lost-card"><span class="game-card-label">Start New Game</span></button>`).join("");
     row.querySelectorAll(".game-card-box").forEach(box=>{
       box.addEventListener("click", gameStartRound);
     });
@@ -5111,6 +5239,45 @@
 
 </script>
 
+<script>
+/* ---------- Accessibility layer (all three domains) ----------
+   1. Toggle state: every exclusive-choice button in the lab (Build/Quiz/
+      Game, the qubit-style buttons, preset buttons, speed, Photon/Laser,
+      ...) shows its selection with an "active" class. Screen readers need
+      aria-pressed instead, so this keeps aria-pressed in sync with "active"
+      everywhere, including buttons the domains create or re-create later.
+      Batched to one pass per animation frame; it only watches class
+      changes, so setting aria-pressed can't re-trigger it.
+   2. Diagrams: the SVG drawings get role="figure" plus a label. "figure"
+      (rather than "img") keeps the text labels drawn inside them, such as
+      element titles and angles, readable by screen readers. */
+(function(){
+  "use strict";
+  const TOGGLES = '.mode-switch button, .quick-btn';
+  function syncPressed(){
+    document.querySelectorAll(TOGGLES).forEach(function(b){
+      const v = String(b.classList.contains('active'));
+      if (b.getAttribute('aria-pressed') !== v) b.setAttribute('aria-pressed', v);
+    });
+  }
+  let queued = false;
+  new MutationObserver(function(){
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(function(){ queued = false; syncPressed(); });
+  }).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['class'] });
+  syncPressed();
+
+  [['#domain-polarization #main-svg', 'Diagram of the optical setup: the light source, then each element in order. Each element’s settings are in the controls below it.'],
+   ['#domain-polarization #quiz-svg', 'Quiz diagram: the photon’s current state and the element it is about to meet.'],
+   ['#domain-polarization #game-svg', 'Game board: the prior photon state, the last object played, and the current state.'],
+   ['#domain-spin #main-svg', 'Diagram of the Stern-Gerlach setup: the atom source, then each apparatus in order. Each apparatus’s settings are in the controls below it.']
+  ].forEach(function(d){
+    const el = document.querySelector(d[0]);
+    if (el){ el.setAttribute('role', 'figure'); el.setAttribute('aria-label', d[1]); }
+  });
+})();
+</script>
 <script>
 (function(){
   "use strict";
