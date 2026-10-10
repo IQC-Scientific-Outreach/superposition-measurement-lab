@@ -177,6 +177,26 @@
   .domain-panel{ display:none; }
   .domain-panel.active{ display:block; }
   #domain-polarization .panel.toolbar, #domain-qubit .panel.toolbar{ display:none; }
+  /* ---------- Expanding background section ---------- */
+  /* Sits outside the two-column layout so it spans the full width of the simulator. */
+  details.learn{ margin-top: 18px; padding: 0; }
+  details.learn summary{
+    list-style:none; cursor:pointer; padding: 16px 18px; display:flex; align-items:center; gap:12px;
+    font: 700 22px var(--display); letter-spacing:.01em; border-radius: var(--radius);
+  }
+  details.learn summary::-webkit-details-marker{ display:none; }
+  details.learn summary::before{
+    content:""; width:10px; height:10px; border-right: 2.5px solid var(--crimson); border-bottom: 2.5px solid var(--crimson);
+    transform: rotate(-45deg); transition: transform .2s ease; flex-shrink:0; margin-left:2px;
+  }
+  details.learn[open] summary::before{ transform: rotate(45deg); }
+  details.learn summary:hover{ color: var(--crimson); }
+  details.learn summary:focus-visible{ outline: 3px solid var(--crimson); outline-offset: 2px; }
+  /* text fills the full panel width (no character cap) */
+  .learn-body{ padding: 0 18px 20px 42px; font-size: 14px; line-height: 1.6; }
+  .learn-body p{ margin: 0 0 12px; }
+  @media (prefers-reduced-motion: reduce){ details.learn summary::before{ transition:none; } }
+
   footer.shell-note{ margin-top: 12px; font-size:12.5px; color: var(--ink-soft); text-align:center; }
 
 
@@ -1351,6 +1371,16 @@
 
 
   </div>
+  <details class="panel learn">
+    <summary>Background</summary>
+    <!-- Placeholder text: drop lang="la" when the real (English) content goes in. -->
+    <div class="learn-body" lang="la">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    </div>
+  </details>
+
   </main>
 
   <footer class="shell-note">Developed by the Scientific Outreach Team at the Institute for Quantum Computing (IQC), University of Waterloo.<br>Built to accompany the teacher resource <a href="https://uwaterloo.ca/institute-for-quantum-computing/outreach/quantum-educators/teacher-resources" target="_blank" rel="noopener noreferrer"><em>The Two Golden Rules of Quantum Mechanics with Light Polarization</em></a>.<br>See related work from <a href="https://www.st-andrews.ac.uk/physics/quvis/simulations_html5/sims/MeasurementUncertainty/measurement-outcome-uncertainty.html">QuVis</a>, <a href="https://phet.colorado.edu/en/simulations/quantum-measurement">PhET</a>, <a href="https://sites.science.oregonstate.edu/~mcintyre/ph425/spins/index.html">SPINS</a>, and <a href="https://quantumflytrap.com/">Quantum Flytrap</a>.<br>The development of the user interface relied on artificial intelligence tools. Please report any issues to iqc-outreach@uwaterloo.ca.</footer>
