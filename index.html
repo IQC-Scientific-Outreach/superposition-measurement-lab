@@ -368,6 +368,10 @@
   #domain-polarization .btn.primary { background: var(--crimson); border-color: var(--crimson); color:#fff; }
   #domain-polarization .btn.primary:hover { background: var(--crimson-dark); }
   #domain-polarization .btn:disabled { opacity:.45; cursor:not-allowed; transform:none; }
+  /* Run / Pause: fixed width so the row doesn't shift when the label flips. */
+  .btn.run-btn { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-width:106px; }
+  .btn.run-btn svg { width:11px; height:11px; fill:currentColor; flex:0 0 auto; }
+  .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
   #domain-polarization .btn-row { display:flex; gap:8px; flex-wrap:wrap; margin-top: 6px; }
 
   #domain-polarization footer.note { margin-top: 28px; font-size:12.5px; color: var(--ink-soft); text-align:center; }
@@ -1041,16 +1045,19 @@
     <div class="beam-controls" id="photon-controls">
       <div>
         <div class="btn-row" style="margin-top:0;">
-          <button class="btn primary" id="send-1-btn">Send 1 Photon</button>
-          <button class="btn" id="send-5-btn">Send 5 Photons</button>
-          <button class="btn" id="send-1000-btn">Send 1000 Photons</button>
+          <button class="btn primary run-btn" id="run-btn"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="M1.5 0.5 L9.5 5 L1.5 9.5 Z"/></svg>Run</button>
+          <button class="btn" id="send-1-btn">Send 1 Photon</button>
+          <button class="btn" id="send-1000-btn">Advance 1000 Photons</button>
         </div>
         <div class="btn-row">
+          <button class="btn" id="show-prob-btn">Show Probabilities</button>
           <button class="btn" id="clear-counts-btn">Clear Counts</button>
-          <button class="btn" id="reset-btn">Reset</button>
+          <button class="btn" id="reset-btn">Reset Experiment</button>
         </div>
-        <div class="photon-counts" style="margin-top:8px;">Sent: <span class="n" id="count-sent">0</span> &nbsp;|&nbsp; Transmitted: <span class="n" id="count-transmitted">0</span> &nbsp;|&nbsp; Absorbed: <span class="n" id="count-absorbed">0</span></div>
-        <div class="status" id="photon-status">Click &ldquo;Send 1 Photon&rdquo; to fire a single photon through the polarizers.</div>
+        <div class="sr-only" id="run-announcer" aria-live="polite"></div>
+        <div class="photon-counts" id="counts-summary" style="margin-top:8px;">Sent: <span class="n" id="count-sent">0</span> &nbsp;|&nbsp; Transmitted: <span class="n" id="count-transmitted">0</span> &nbsp;|&nbsp; Absorbed: <span class="n" id="count-absorbed">0</span></div>
+        <div class="photon-counts" id="prob-summary" style="margin-top:8px; display:none;">Probability of transmitting through all element(s): <span class="n" id="prob-transmit">100%</span></div>
+        <div class="status" id="photon-status">Click &ldquo;Run&rdquo; to send photons continuously, or &ldquo;Send 1 Photon&rdquo; to fire a single one.</div>
       </div>
       <div class="speed-block">
         <span class="speed-label">Speed</span>
@@ -1180,18 +1187,19 @@
     <div class="beam-controls" id="atom-controls">
       <div>
         <div class="btn-row" style="margin-top:0;">
-          <button class="btn primary" id="send-1-btn">Emit 1 Atom</button>
-          <button class="btn" id="send-5-btn">Emit 5 Atoms</button>
-          <button class="btn" id="send-1000-btn">Emit 1000 Atoms</button>
-          <button class="btn" id="show-prob-btn">Show Probabilities</button>
+          <button class="btn primary run-btn" id="run-btn"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="M1.5 0.5 L9.5 5 L1.5 9.5 Z"/></svg>Run</button>
+          <button class="btn" id="send-1-btn">Send 1 Atom</button>
+          <button class="btn" id="send-1000-btn">Advance 1000 Atoms</button>
         </div>
         <div class="btn-row">
+          <button class="btn" id="show-prob-btn">Show Probabilities</button>
           <button class="btn" id="clear-counts-btn">Clear Counts</button>
-          <button class="btn" id="reset-btn">Reset</button>
+          <button class="btn" id="reset-btn">Reset Experiment</button>
         </div>
+        <div class="sr-only" id="run-announcer" aria-live="polite"></div>
         <div class="atom-counts" id="counts-summary" style="margin-top:8px;">Sent: <span class="n" id="count-sent">0</span> &nbsp;|&nbsp; Survived: <span class="n" id="count-survived">0</span> &nbsp;|&nbsp; Blocked: <span class="n" id="count-blocked">0</span></div>
         <div class="atom-counts" id="prob-summary" style="margin-top:8px; display:none;">Probability of surviving all apparatus(es): <span class="n" id="prob-survive">0%</span></div>
-        <div class="status" id="atom-status">Click &ldquo;Emit 1 Atom&rdquo; to fire a single silver atom through the apparatuses.</div>
+        <div class="status" id="atom-status">Click &ldquo;Run&rdquo; to send silver atoms continuously, or &ldquo;Send 1 Atom&rdquo; to fire a single one.</div>
       </div>
       <div class="speed-block">
         <span class="speed-label">Speed</span>
@@ -1237,18 +1245,19 @@
     <div class="beam-controls" id="atom-controls">
       <div>
         <div class="btn-row" style="margin-top:0;">
-          <button class="btn primary" id="send-1-btn">Run 1 Shot</button>
-          <button class="btn" id="send-5-btn">Run 5 Shots</button>
-          <button class="btn" id="send-1000-btn">Run 1000 Shots</button>
-          <button class="btn" id="show-prob-btn">Show Probabilities</button>
+          <button class="btn primary run-btn" id="run-btn"><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="M1.5 0.5 L9.5 5 L1.5 9.5 Z"/></svg>Run</button>
+          <button class="btn" id="send-1-btn">Send 1 Shot</button>
+          <button class="btn" id="send-1000-btn">Advance 1000 Shots</button>
         </div>
         <div class="btn-row">
+          <button class="btn" id="show-prob-btn">Show Probabilities</button>
           <button class="btn" id="clear-counts-btn">Clear Counts</button>
-          <button class="btn" id="reset-btn">Reset</button>
+          <button class="btn" id="reset-btn">Reset Experiment</button>
         </div>
+        <div class="sr-only" id="run-announcer" aria-live="polite"></div>
         <div class="status" id="counts-summary">Sent: <b id="count-sent">0</b> &nbsp;|&nbsp; Succeeded: <b id="count-survived">0</b> &nbsp;|&nbsp; Lost: <b id="count-absorbed">0</b></div>
         <div class="status" id="prob-summary" style="display:none;"></div>
-        <div class="status" id="qubit-status">Click &ldquo;Run 1 Shot&rdquo; to send a single qubit through the circuit.</div>
+        <div class="status" id="qubit-status">Click &ldquo;Run&rdquo; to send qubits continuously, or &ldquo;Send 1 Shot&rdquo; to send a single one.</div>
       </div>
       <div class="speed-block">
         <span class="speed-label">Speed</span>
@@ -1384,6 +1393,13 @@
   let nextId = 4;
   let layout = null;
   let photonBusy = false;
+  let running = false;        // Run/Pause: photons sent back to back until paused
+  let runToken = 0;           // bumps on every start/stop so a stale run loop exits
+  let showProbabilities = false;
+  // Edits made while a photon is in flight are queued and applied as soon
+  // as it lands (rather than silently dropped), so the setup can still be
+  // changed between photons while running.
+  let idleQueue = [];
   let counts = { sent: 0, transmitted: 0, absorbed: 0 };
   let stageCounts = elements.map(()=>0); // photon-mode: how many photons reached each stage
 
@@ -1874,6 +1890,21 @@
   function updateLaser(){
     if (!layout) return;
     const steps = computeLaserSteps();
+    drawLaserSteps(steps);
+    const statusEl = document.getElementById("laser-status");
+    if (statusEl){
+      const finalPct = steps.length ? Math.round(steps[steps.length-1].intensity*1000)/10 : 100;
+      const nEl = elements.length - 1;
+      statusEl.textContent = nEl > 0
+        ? `${finalPct}% of the initial intensity makes it through all ${nEl} element(s).`
+        : `The light source is emitting at ${formatAngle(elements[0].angle)}. Add an element to act on it.`;
+    }
+  }
+
+  // Draws the state arrow and percentage label at every stage. Shared by
+  // Laser mode (intensity) and Photon mode's Show Probabilities (the same
+  // numbers read as the probability of a single photon getting that far).
+  function drawLaserSteps(steps){
     steps.forEach((s, i)=>{
       const g = document.getElementById(`state-arrow-${i}`);
       const line = document.getElementById(`state-line-${i}`);
@@ -1888,14 +1919,6 @@
       applyPolarizationShape(line, ellipse, arc1, arc2, s.chi, STATE_HALF_LEN);
       label.textContent = Math.round(s.intensity * 1000) / 10 + "%";
     });
-    const statusEl = document.getElementById("laser-status");
-    if (statusEl){
-      const finalPct = steps.length ? Math.round(steps[steps.length-1].intensity*1000)/10 : 100;
-      const nEl = elements.length - 1;
-      statusEl.textContent = nEl > 0
-        ? `${finalPct}% of the initial intensity makes it through all ${nEl} element(s).`
-        : `The light source is emitting at ${formatAngle(elements[0].angle)}. Add an element to act on it.`;
-    }
   }
 
   function updateElementVisuals(){
@@ -1912,6 +1935,13 @@
 
   function updatePhotonStageLabels(){
     if (!layout) return;
+    if (showProbabilities){
+      const steps = computeLaserSteps();
+      drawLaserSteps(steps);
+      const probEl = document.getElementById("prob-transmit");
+      if (probEl) probEl.textContent = Math.round(steps[steps.length-1].intensity * 1000) / 10 + "%";
+      return;
+    }
     elements.forEach((el, i)=>{
       const label = document.getElementById(`pct-label-${i}`);
       if (label) label.textContent = String(stageCounts[i] || 0);
@@ -2075,36 +2105,35 @@
 
   function wireControlEvents(){
     controlsRow.querySelectorAll(".quick-btn").forEach(btn=>{
-      btn.addEventListener("click", ()=>{
+      btn.addEventListener("click", ()=> whenIdle(()=>{
         const id = Number(btn.dataset.id);
         if (btn.dataset.kind === "circular") setElementCircular(id, btn.dataset.value);
         else setElementAngle(id, Number(btn.dataset.value));
         renderControlsRow();
-      });
+      }));
     });
     controlsRow.querySelectorAll(".angle-slider").forEach(sl=>{
       sl.addEventListener("input", ()=>{
-        const id = Number(sl.dataset.id);
-        setElementAngle(id, Number(sl.value));
-        updateOneCardDisplay(id);
+        const id = Number(sl.dataset.id), v = Number(sl.value);
+        whenIdle(()=>{ setElementAngle(id, v); updateOneCardDisplay(id); });
       });
     });
     controlsRow.querySelectorAll(".angle-number").forEach(inp=>{
       inp.addEventListener("change", ()=>{
         let v = parseFloat(inp.value);
         if (isNaN(v)) v = 0;
-        setElementAngle(Number(inp.dataset.id), v);
-        renderControlsRow();
+        const id = Number(inp.dataset.id);
+        whenIdle(()=>{ setElementAngle(id, v); renderControlsRow(); });
       });
     });
     controlsRow.querySelectorAll(".pol-remove").forEach(btn=>{
-      btn.addEventListener("click", ()=> removeElement(Number(btn.dataset.id)));
+      btn.addEventListener("click", ()=> whenIdle(()=> removeElement(Number(btn.dataset.id))));
     });
     controlsRow.querySelectorAll(".pol-convert").forEach(btn=>{
-      btn.addEventListener("click", ()=> cycleElementType(Number(btn.dataset.id)));
+      btn.addEventListener("click", ()=> whenIdle(()=> cycleElementType(Number(btn.dataset.id))));
     });
     controlsRow.querySelectorAll(".insert-btn").forEach(btn=>{
-      btn.addEventListener("click", ()=> insertElementAfter(Number(btn.dataset.afterId)));
+      btn.addEventListener("click", ()=> whenIdle(()=> insertElementAfter(Number(btn.dataset.afterId))));
     });
   }
 
@@ -2128,7 +2157,7 @@
     const wasCircular = !!el.circular;
     el.angle = normalizeAngle(angle);
     el.circular = null;
-    resetCounts();
+    resetCountsOnly();
     if (wasCircular) rebuildEverything(); // icon switches from circle back to arrow
     else refreshAll();
   }
@@ -2138,7 +2167,7 @@
     if (!el) return;
     if (photonBusy) return;
     el.circular = handedness;
-    resetCounts();
+    resetCountsOnly();
     rebuildEverything(); // icon switches from arrow to circle
   }
 
@@ -2168,19 +2197,22 @@
   function rebuildEverything(){
     buildDiagram();
     renderControlsRow();
-    setStateArrowsVisible(mode === "laser");
-    resetCounts();
+    setStateArrowsVisible(stateArrowsWanted());
+    resetCountsOnly();
     refreshAll();
   }
 
   document.getElementById("reset-btn").addEventListener("click", ()=>{
-    elements = [
-      { id: nextId++, angle: 45, type: "source" },
-      { id: nextId++, angle: 90, type: "polarizer" },
-      { id: nextId++, angle: -45, type: "polarizer" }
-    ];
-    resetCounts();
-    rebuildEverything();
+    setRunning(false);
+    whenIdle(()=>{
+      elements = [
+        { id: nextId++, angle: 45, type: "source" },
+        { id: nextId++, angle: 90, type: "polarizer" },
+        { id: nextId++, angle: -45, type: "polarizer" }
+      ];
+      resetCounts();
+      rebuildEverything();
+    });
   });
 
   // ================= Mode switching =================
@@ -2190,28 +2222,33 @@
 
   modeSwitch.querySelectorAll("button").forEach(btn=>{
     btn.addEventListener("click", ()=>{
-      if (photonBusy) return;
-      mode = btn.dataset.mode;
-      modeSwitch.querySelectorAll("button").forEach(b=>b.classList.toggle("active", b === btn));
-      laserControls.style.display = mode === "laser" ? "flex" : "none";
-      photonControls.style.display = mode === "photon" ? "flex" : "none";
-      setStateArrowsVisible(mode === "laser");
-      resetPhotonMarker();
-      refreshAll();
+      setRunning(false);
+      whenIdle(()=>{
+        mode = btn.dataset.mode;
+        modeSwitch.querySelectorAll("button").forEach(b=>b.classList.toggle("active", b === btn));
+        laserControls.style.display = mode === "laser" ? "flex" : "none";
+        photonControls.style.display = mode === "photon" ? "flex" : "none";
+        setStateArrowsVisible(stateArrowsWanted());
+        resetPhotonMarker();
+        refreshAll();
+      });
     });
   });
 
   // ================= Basic / Advanced toggle =================
   const uiModeSwitch = document.getElementById("ui-mode-switch");
   uiModeSwitch.querySelectorAll("button").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      if (photonBusy) return;
+    btn.addEventListener("click", ()=> whenIdle(()=>{
       uiMode = btn.dataset.uimode;
       uiModeSwitch.querySelectorAll("button").forEach(b=>b.classList.toggle("active", b === btn));
       if (uiMode === "basic") sanitizeForBasicMode();
       rebuildEverything();
-    });
+    }));
   });
+
+  // State arrows show in Laser mode, and in Photon mode while Show
+  // Probabilities is on (hidden while counting individual photons).
+  function stateArrowsWanted(){ return mode === "laser" || showProbabilities; }
 
   function setStateArrowsVisible(visible){
     elements.forEach((el,i)=>{
@@ -2224,7 +2261,6 @@
   const speedSwitch = document.getElementById("speed-switch");
   speedSwitch.querySelectorAll("button").forEach(btn=>{
     btn.addEventListener("click", ()=>{
-      if (photonBusy) return;
       speed = btn.dataset.speed;
       speedSwitch.querySelectorAll("button").forEach(b=>b.classList.toggle("active", b === btn));
     });
@@ -2261,10 +2297,16 @@
     return Math.max(280, Math.min(750, Math.abs(x2 - x1) * 1.8));
   }
 
+  // Sends one animated photon, then applies any edits queued while it flew.
   async function sendOnePhoton(){
+    await sendOnePhotonAnimated();
+    flushIdleQueue();
+  }
+
+  async function sendOnePhotonAnimated(){
     if (photonBusy || !layout) return;
     photonBusy = true;
-    setSendButtonsDisabled(true);
+    updateRunControls();
     const marker = document.getElementById("photon-marker");
     const axis = document.getElementById("photon-axis");
     const line = document.getElementById("photon-line");
@@ -2293,7 +2335,7 @@
       counts.transmitted++;
       updateCounts();
       photonBusy = false;
-      setSendButtonsDisabled(false);
+      updateRunControls();
       return;
     }
 
@@ -2317,7 +2359,7 @@
         counts.absorbed++;
         updateCounts();
         photonBusy = false;
-        setSendButtonsDisabled(false);
+        updateRunControls();
         return;
       }
 
@@ -2340,18 +2382,65 @@
     counts.transmitted++;
     updateCounts();
     photonBusy = false;
-    setSendButtonsDisabled(false);
+    updateRunControls();
   }
 
-  async function sendPhotons(n){
-    for (let i = 0; i < n; i++){
+  function whenIdle(fn){ if (!photonBusy) fn(); else idleQueue.push(fn); }
+  function flushIdleQueue(){
+    if (photonBusy) return;
+    const q = idleQueue; idleQueue = [];
+    q.forEach(fn=> fn());
+  }
+
+  // ================= Run / Pause =================
+  // Sends animated photons back to back (the same pace Send 5 Photons used
+  // to have) until paused. Stops by itself if the panel is hidden (Laser
+  // mode, Quiz / Game, or another qubit tab).
+  const RUN_HTML = '<svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="M1.5 0.5 L9.5 5 L1.5 9.5 Z"/></svg>Run';
+  const PAUSE_HTML = '<svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><rect x="1" y="0.5" width="3" height="9"/><rect x="6" y="0.5" width="3" height="9"/></svg>Pause';
+  const runBtn = document.getElementById("run-btn");
+  function photonControlsVisible(){ return document.getElementById("photon-controls").offsetParent !== null; }
+  function announce(msg){
+    const el = document.getElementById("run-announcer");
+    if (el) el.textContent = msg;
+  }
+  function setRunning(on){
+    if (on && (!layout || !photonControlsVisible())) on = false;
+    if (running === on) return;
+    running = on;
+    runToken++;
+    runBtn.innerHTML = on ? PAUSE_HTML : RUN_HTML;
+    updateRunControls();
+    const statusEl = document.getElementById("photon-status");
+    if (on){
+      if (showProbabilities) resetCounts(); // back to counts, starting fresh
+      statusEl.textContent = "Running: sending photons continuously.";
+      announce("Running. Sending photons continuously.");
+      runLoop(runToken);
+    } else {
+      if (!photonBusy) statusEl.textContent = "Paused.";
+      announce("Paused.");
+    }
+  }
+  async function runLoop(token){
+    while (running && token === runToken){
+      if (!photonControlsVisible()){ setRunning(false); return; }
       await sendOnePhoton();
+      if (!(running && token === runToken)) return;
       await wait(120);
     }
   }
+  runBtn.addEventListener("click", ()=> setRunning(!running));
+  // Pause as soon as the controls are hidden (another tab or mode): a
+  // display:none element resizes to 0x0, which fires the observer.
+  if (window.ResizeObserver){
+    new ResizeObserver(()=>{ if (running && !photonControlsVisible()) setRunning(false); })
+      .observe(document.getElementById("photon-controls"));
+  }
 
   function simulateBatch(n){
-    if (photonBusy || !layout) return;
+    if (photonBusy || running || !layout) return;
+    if (showProbabilities) resetCounts(); // back to counts, starting fresh
     const statusEl = document.getElementById("photon-status");
     for (let k = 0; k < n; k++){
       counts.sent++; stageCounts[0]++;
@@ -2370,13 +2459,12 @@
     statusEl.textContent = `Simulated ${n} photons without animating them.`;
   }
 
-  function setSendButtonsDisabled(disabled){
-    document.getElementById("send-1-btn").disabled = disabled;
-    document.getElementById("send-5-btn").disabled = disabled;
-    document.getElementById("send-1000-btn").disabled = disabled;
-    controlsRow.querySelectorAll(".insert-btn, .pol-remove, .pol-convert").forEach(b=> b.disabled = disabled);
-    modeSwitch.querySelectorAll("button").forEach(b=> b.disabled = disabled);
-    uiModeSwitch.querySelectorAll("button").forEach(b=> b.disabled = disabled);
+  // Send 1 / Advance 1000 are off while a photon is in flight or Run is on.
+  // Everything else stays clickable; edits made mid-flight are queued.
+  function updateRunControls(){
+    const off = photonBusy || running;
+    document.getElementById("send-1-btn").disabled = off;
+    document.getElementById("send-1000-btn").disabled = off;
   }
 
   function updateCounts(){
@@ -2385,18 +2473,49 @@
     document.getElementById("count-absorbed").textContent = counts.absorbed;
   }
 
-  function resetCounts(){
+  // Resets the counters without touching Show Probabilities -- used when a
+  // setting changes, so the probabilities for the new setup show right away.
+  function resetCountsOnly(){
     counts = { sent: 0, transmitted: 0, absorbed: 0 };
     stageCounts = elements.map(()=>0);
     updateCounts();
-    document.getElementById("photon-status").textContent = "Click \u201cSend 1 Photon\u201d to fire a single photon through the polarizers.";
+    document.getElementById("photon-status").textContent = running
+      ? "Running: sending photons continuously."
+      : "Click \u201cRun\u201d to send photons continuously, or \u201cSend 1 Photon\u201d to fire a single one.";
     if (mode === "photon") updatePhotonStageLabels();
   }
 
-  document.getElementById("send-1-btn").addEventListener("click", ()=> sendPhotons(1));
-  document.getElementById("send-5-btn").addEventListener("click", ()=> sendPhotons(5));
+  // Resets the counters AND drops back to counts -- used by Clear Counts,
+  // Reset Experiment, and (when it was on) the sending buttons.
+  function resetCounts(){
+    if (showProbabilities) setShowProbabilities(false);
+    resetCountsOnly();
+  }
+
+  function setShowProbabilities(on){
+    showProbabilities = on;
+    document.getElementById("show-prob-btn").textContent = on ? "Show Counts" : "Show Probabilities";
+    document.getElementById("counts-summary").style.display = on ? "none" : "";
+    document.getElementById("prob-summary").style.display = on ? "" : "none";
+    if (on) resetPhotonMarker(); // the resting photon would sit on the last arrow
+    setStateArrowsVisible(stateArrowsWanted());
+    if (mode === "photon") updatePhotonStageLabels();
+  }
+
+  document.getElementById("send-1-btn").addEventListener("click", ()=>{
+    if (photonBusy || running) return;
+    if (showProbabilities) resetCounts(); // back to counts, starting fresh
+    sendOnePhoton();
+  });
   document.getElementById("send-1000-btn").addEventListener("click", ()=> simulateBatch(1000));
-  document.getElementById("clear-counts-btn").addEventListener("click", resetCounts);
+  document.getElementById("show-prob-btn").addEventListener("click", ()=>{
+    setRunning(false);
+    whenIdle(()=> setShowProbabilities(!showProbabilities));
+  });
+  document.getElementById("clear-counts-btn").addEventListener("click", ()=>{
+    // While running, this lands between shots and the run carries on.
+    whenIdle(resetCounts);
+  });
 
   // ================= Quiz mode =================
   // Reuses the same physics (applyElement / jonesFromAngle / jonesCircular /
@@ -3158,6 +3277,11 @@
   let nextId = 4;
   let layout = null;
   let atomBusy = false;
+  let running = false;        // Run/Pause: atoms sent back to back until paused
+  let runToken = 0;           // bumps on every start/stop so a stale run loop exits
+  // Edits made while an atom is in flight are queued and applied as soon as
+  // it lands, so the setup can still be changed between atoms while running.
+  let idleQueue = [];
   let showProbabilities = false;
   let counts = { sent: 0, survived: 0, blocked: 0 };
   let stageCounts = elements.map(()=>0);       // atoms that passed element i
@@ -3578,23 +3702,24 @@
 
   function wireControlEvents(){
     controlsRow.querySelectorAll(".quick-btn").forEach(btn=>{
-      btn.addEventListener("click", ()=>{
+      btn.addEventListener("click", ()=> whenIdle(()=>{
         if (btn.dataset.circular) setElementCircular(Number(btn.dataset.id), btn.dataset.circular);
         else setElementAngle(Number(btn.dataset.id), Number(btn.dataset.angle));
-      });
+      }));
     });
     controlsRow.querySelectorAll(".custom-angle-input").forEach(inp=>{
       inp.addEventListener("change", ()=>{
         let v = parseFloat(inp.value);
         if (isNaN(v)) v = 0;
-        setElementAngle(Number(inp.dataset.id), v);
+        const id = Number(inp.dataset.id);
+        whenIdle(()=> setElementAngle(id, v));
       });
     });
     controlsRow.querySelectorAll(".pol-remove").forEach(btn=>{
-      btn.addEventListener("click", ()=> removeElement(Number(btn.dataset.id)));
+      btn.addEventListener("click", ()=> whenIdle(()=> removeElement(Number(btn.dataset.id))));
     });
     controlsRow.querySelectorAll(".insert-btn").forEach(btn=>{
-      btn.addEventListener("click", ()=> insertElementAfter(Number(btn.dataset.afterId)));
+      btn.addEventListener("click", ()=> whenIdle(()=> insertElementAfter(Number(btn.dataset.afterId))));
     });
   }
 
@@ -3640,20 +3765,22 @@
   }
 
   document.getElementById("reset-btn").addEventListener("click", ()=>{
-    elements = [
-      { id: nextId++, type: "oven" },
-      { id: nextId++, type: "sg", angle: 0, circular: null },
-      { id: nextId++, type: "sg", angle: 90, circular: null }
-    ];
-    resetCounts();
-    rebuildEverything();
+    setRunning(false);
+    whenIdle(()=>{
+      elements = [
+        { id: nextId++, type: "oven" },
+        { id: nextId++, type: "sg", angle: 0, circular: null },
+        { id: nextId++, type: "sg", angle: 90, circular: null }
+      ];
+      resetCounts();
+      rebuildEverything();
+    });
   });
 
   // ================= Speed toggle =================
   const speedSwitch = document.getElementById("speed-switch");
   speedSwitch.querySelectorAll("button").forEach(btn=>{
     btn.addEventListener("click", ()=>{
-      if (atomBusy) return;
       speed = btn.dataset.speed;
       speedSwitch.querySelectorAll("button").forEach(b=>b.classList.toggle("active", b === btn));
     });
@@ -3712,10 +3839,16 @@
     }
   }
 
+  // Sends one animated atom, then applies any edits queued while it flew.
   async function sendOneAtom(){
+    await sendOneAtomAnimated();
+    flushIdleQueue();
+  }
+
+  async function sendOneAtomAnimated(){
     if (atomBusy || !layout) return;
     atomBusy = true;
-    setSendButtonsDisabled(true);
+    updateRunControls();
     const marker = document.getElementById("atom-marker");
     const dot = document.getElementById("atom-dot");
     const statusEl = document.getElementById("atom-status");
@@ -3738,7 +3871,7 @@
       counts.survived++;
       updateCounts();
       atomBusy = false;
-      setSendButtonsDisabled(false);
+      updateRunControls();
       return;
     }
 
@@ -3770,7 +3903,7 @@
         updateCounts();
         updateStageLabels();
         atomBusy = false;
-        setSendButtonsDisabled(false);
+        updateRunControls();
         return;
       }
 
@@ -3789,19 +3922,63 @@
     counts.survived++;
     updateCounts();
     atomBusy = false;
-    setSendButtonsDisabled(false);
+    updateRunControls();
   }
 
-  async function sendAtoms(n){
-    if (showProbabilities) resetCounts(); // switch back to counts mode, starting fresh
-    for (let i = 0; i < n; i++){
+  function whenIdle(fn){ if (!atomBusy) fn(); else idleQueue.push(fn); }
+  function flushIdleQueue(){
+    if (atomBusy) return;
+    const q = idleQueue; idleQueue = [];
+    q.forEach(fn=> fn());
+  }
+
+  // ================= Run / Pause =================
+  // Sends animated atoms back to back (the same pace Emit 5 Atoms used to
+  // have) until paused. Stops by itself if the panel is hidden.
+  const RUN_HTML = '<svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="M1.5 0.5 L9.5 5 L1.5 9.5 Z"/></svg>Run';
+  const PAUSE_HTML = '<svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><rect x="1" y="0.5" width="3" height="9"/><rect x="6" y="0.5" width="3" height="9"/></svg>Pause';
+  const runBtn = document.getElementById("run-btn");
+  function atomControlsVisible(){ return document.getElementById("atom-controls").offsetParent !== null; }
+  function announce(msg){
+    const el = document.getElementById("run-announcer");
+    if (el) el.textContent = msg;
+  }
+  function setRunning(on){
+    if (on && (!layout || !atomControlsVisible())) on = false;
+    if (running === on) return;
+    running = on;
+    runToken++;
+    runBtn.innerHTML = on ? PAUSE_HTML : RUN_HTML;
+    updateRunControls();
+    const statusEl = document.getElementById("atom-status");
+    if (on){
+      if (showProbabilities) resetCounts(); // back to counts, starting fresh
+      statusEl.textContent = "Running: sending atoms continuously.";
+      announce("Running. Sending atoms continuously.");
+      runLoop(runToken);
+    } else {
+      if (!atomBusy) statusEl.textContent = "Paused.";
+      announce("Paused.");
+    }
+  }
+  async function runLoop(token){
+    while (running && token === runToken){
+      if (!atomControlsVisible()){ setRunning(false); return; }
       await sendOneAtom();
+      if (!(running && token === runToken)) return;
       await wait(120);
     }
   }
+  runBtn.addEventListener("click", ()=> setRunning(!running));
+  // Pause as soon as the controls are hidden (another tab or mode): a
+  // display:none element resizes to 0x0, which fires the observer.
+  if (window.ResizeObserver){
+    new ResizeObserver(()=>{ if (running && !atomControlsVisible()) setRunning(false); })
+      .observe(document.getElementById("atom-controls"));
+  }
 
   function simulateBatch(n){
-    if (atomBusy || !layout) return;
+    if (atomBusy || running || !layout) return;
     if (showProbabilities) resetCounts(); // switch back to counts mode, starting fresh
     const statusEl = document.getElementById("atom-status");
     for (let k = 0; k < n; k++){
@@ -3822,12 +3999,12 @@
     statusEl.textContent = `Simulated ${n} atoms without animating them.`;
   }
 
-  function setSendButtonsDisabled(disabled){
-    document.getElementById("send-1-btn").disabled = disabled;
-    document.getElementById("send-5-btn").disabled = disabled;
-    document.getElementById("send-1000-btn").disabled = disabled;
-    document.getElementById("show-prob-btn").disabled = disabled;
-    controlsRow.querySelectorAll(".insert-btn, .pol-remove, .quick-btn, .custom-angle-input").forEach(b=> b.disabled = disabled);
+  // Send 1 / Advance 1000 are off while an atom is in flight or Run is on.
+  // Everything else stays clickable; edits made mid-flight are queued.
+  function updateRunControls(){
+    const off = atomBusy || running;
+    document.getElementById("send-1-btn").disabled = off;
+    document.getElementById("send-1000-btn").disabled = off;
   }
 
   function updateCounts(){
@@ -3846,12 +4023,14 @@
     stageCounts = elements.map(()=>0);
     blockedStageCounts = elements.map(()=>0);
     updateCounts();
-    document.getElementById("atom-status").textContent = "Click \u201cEmit 1 Atom\u201d to fire a single silver atom through the apparatuses.";
+    document.getElementById("atom-status").textContent = running
+      ? "Running: sending atoms continuously."
+      : "Click \u201cRun\u201d to send silver atoms continuously, or \u201cSend 1 Atom\u201d to fire a single one.";
     updateStageLabels();
   }
 
   // Resets the counters AND drops back to counts mode -- used by Clear
-  // Counts, Reset, and (when it was on) the Emit buttons.
+  // Counts, Reset Experiment, and (when it was on) the sending buttons.
   function resetCounts(){
     if (showProbabilities){ showProbabilities = false; }
     resetCountsOnly();
@@ -3868,14 +4047,20 @@
     updateStageLabels();
   }
 
-  document.getElementById("send-1-btn").addEventListener("click", ()=> sendAtoms(1));
-  document.getElementById("send-5-btn").addEventListener("click", ()=> sendAtoms(5));
+  document.getElementById("send-1-btn").addEventListener("click", ()=>{
+    if (atomBusy || running) return;
+    if (showProbabilities) resetCounts(); // switch back to counts mode, starting fresh
+    sendOneAtom();
+  });
   document.getElementById("send-1000-btn").addEventListener("click", ()=> simulateBatch(1000));
   document.getElementById("show-prob-btn").addEventListener("click", ()=>{
-    if (atomBusy) return;
-    setShowProbabilities(!showProbabilities);
+    setRunning(false);
+    whenIdle(()=> setShowProbabilities(!showProbabilities));
   });
-  document.getElementById("clear-counts-btn").addEventListener("click", resetCounts);
+  document.getElementById("clear-counts-btn").addEventListener("click", ()=>{
+    // While running, this lands between shots and the run carries on.
+    whenIdle(resetCounts);
+  });
 
   // ================= Init =================
   rebuildEverything();
@@ -4099,6 +4284,11 @@
   let speed = "medium";
   const SPEED_FACTOR = { slow: 1.8, medium: 1, fast: 0.45 };
   let animBusy = false;
+  let running = false;        // Run/Pause: shots sent back to back until paused
+  let runToken = 0;           // bumps on every start/stop so a stale run loop exits
+  // Edits made while a shot is animating are queued and applied as soon as
+  // it finishes, so the circuit can still be changed between shots while running.
+  let idleQueue = [];
 
   const qubitDiagram = document.getElementById("qubit-diagram");
   const controlsRow = document.getElementById("controls-row");
@@ -4324,14 +4514,13 @@
 
   function wireMeasurementBasisButtons(){
     qubitDiagram.querySelectorAll(".measurement-basis-row button").forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        if (animBusy) return;
+      btn.addEventListener("click", ()=> whenIdle(()=>{
         measurement.basis = btn.dataset.basis;
         lastMeasurementOutcome = null;
         resetCountsOnly();
         renderDiagram();
         updateMathTrace();
-      });
+      }));
     });
   }
 
@@ -4374,10 +4563,22 @@
   }
   function travelDuration(){ return Math.round(520 * SPEED_FACTOR[speed]); }
 
+  // Runs one animated shot, then applies any edits queued while it ran.
   async function runOneShotAnimated(){
+    await runOneShotAnimatedInner();
+    flushIdleQueue();
+  }
+  function whenIdle(fn){ if (!animBusy) fn(); else idleQueue.push(fn); }
+  function flushIdleQueue(){
+    if (animBusy) return;
+    const q = idleQueue; idleQueue = [];
+    q.forEach(fn=> fn());
+  }
+
+  async function runOneShotAnimatedInner(){
     if (animBusy) return;
     animBusy = true;
-    setRunControlsDisabled(true);
+    updateRunControls();
     const marker = document.getElementById("qubit-marker");
     marker.classList.remove("absorbed");
     marker.style.opacity = "1";
@@ -4413,7 +4614,7 @@
         marker.style.opacity = "0";
         renderDiagram(); // refreshes the projector's "Absorbed: N" counter
         animBusy = false;
-        setRunControlsDisabled(false);
+        updateRunControls();
         return;
       }
       state = out;
@@ -4436,7 +4637,7 @@
     await wait(350);
     marker.style.opacity = "0";
     animBusy = false;
-    setRunControlsDisabled(false);
+    updateRunControls();
   }
   function flashMeasurementBit(outcome){
     const el = document.getElementById("measurement-flash");
@@ -4480,11 +4681,12 @@
     renderKatexIn(qubitDiagram);
     wireMeasurementBasisButtons();
   }
-  function setRunControlsDisabled(disabled){
-    document.getElementById("send-1-btn").disabled = disabled;
-    document.getElementById("send-5-btn").disabled = disabled;
-    document.getElementById("send-1000-btn").disabled = disabled;
-    document.getElementById("show-prob-btn").disabled = disabled;
+  // Send 1 / Advance 1000 are off while a shot is animating or Run is on.
+  // Everything else stays clickable; edits made mid-shot are queued.
+  function updateRunControls(){
+    const off = animBusy || running;
+    document.getElementById("send-1-btn").disabled = off;
+    document.getElementById("send-1000-btn").disabled = off;
   }
 
   // Batch runs (5 / 1000): no animation, just accumulate statistics.
@@ -4562,19 +4764,17 @@
 
   function wireControlEvents(){
     controlsRow.querySelectorAll(".quick-btn").forEach((btn)=>{
-      btn.addEventListener("click", ()=>{
-        if (animBusy) return;
+      btn.addEventListener("click", ()=> whenIdle(()=>{
         const el = elements.find(e => e.id === Number(btn.dataset.id));
         if (!el) return;
         if (btn.dataset.circular){ el.circular = btn.dataset.circular; }
         else if (btn.dataset.kind){ el.gateKind = btn.dataset.kind; }
         else { el.angle = Number(btn.dataset.angle); el.circular = null; }
         rebuildEverything();
-      });
+      }));
     });
     controlsRow.querySelectorAll(".pol-convert").forEach((btn)=>{
-      btn.addEventListener("click", ()=>{
-        if (animBusy) return;
+      btn.addEventListener("click", ()=> whenIdle(()=>{
         const el = elements.find(e => e.id === Number(btn.dataset.id));
         if (!el) return;
         el.type = nextElementType(el.type);
@@ -4582,21 +4782,21 @@
         if (el.type === "projector"){ el.angle = 0; el.circular = null; }
         else if (el.type === "gate"){ el.gateKind = "Z"; }
         rebuildEverything();
-      });
+      }));
     });
     controlsRow.querySelectorAll(".pol-remove").forEach((btn)=>{
-      btn.addEventListener("click", ()=>{
-        if (animBusy || elements.length <= 2) return;
+      btn.addEventListener("click", ()=> whenIdle(()=>{
+        if (elements.length <= 2) return;
         elements = elements.filter(e => e.id !== Number(btn.dataset.id));
         rebuildEverything();
-      });
+      }));
     });
     controlsRow.querySelectorAll(".insert-btn[data-after-id]").forEach((btn)=>{
-      btn.addEventListener("click", ()=> insertElementAfter(Number(btn.dataset.afterId)));
+      btn.addEventListener("click", ()=> whenIdle(()=> insertElementAfter(Number(btn.dataset.afterId))));
     });
     const insertBtn = document.getElementById("insert-end-btn");
     if (insertBtn){
-      insertBtn.addEventListener("click", ()=> insertElementAfter(elements[elements.length - 1].id));
+      insertBtn.addEventListener("click", ()=> whenIdle(()=> insertElementAfter(elements[elements.length - 1].id)));
     }
   }
 
@@ -4701,7 +4901,9 @@
     absorbedStageCounts = elements.map(()=>0);
     lastMeasurementOutcome = null;
     updateCounts();
-    document.getElementById("qubit-status").textContent = "Click \u201cRun 1 Shot\u201d to send a single qubit through the circuit.";
+    document.getElementById("qubit-status").textContent = running
+      ? "Running: sending shots continuously."
+      : "Click \u201cRun\u201d to send qubits continuously, or \u201cSend 1 Shot\u201d to send a single one.";
   }
   function resetCounts(){
     if (showProgression) setShowProgression(false);
@@ -4714,34 +4916,87 @@
   }
   function setShowProgression(on){
     showProgression = on;
-    document.getElementById("show-prob-btn").textContent = on ? "Show Shots" : "Show Probabilities";
+    document.getElementById("show-prob-btn").textContent = on ? "Show Counts" : "Show Probabilities";
     document.getElementById("counts-summary").style.display = on ? "none" : "";
     document.getElementById("prob-summary").style.display = "none";
     renderDiagram();
   }
 
-  async function runShots(n){
+  // Advance: n shots at once, no animation, just accumulate statistics.
+  function advanceShots(n){
+    if (animBusy || running) return;
     if (showProgression) setShowProgression(false);
-    if (n === 1000){
-      for (let i = 0; i < n; i++) runOneShotSilent();
-      updateCounts();
-      renderDiagram(); // refreshes both the measurement node and every per-element "Lost" counter
-      document.getElementById("qubit-status").textContent = `Ran ${n} shots without animating them.`;
+    for (let i = 0; i < n; i++) runOneShotSilent();
+    updateCounts();
+    renderDiagram(); // refreshes both the measurement node and every per-element "Lost" counter
+    document.getElementById("qubit-status").textContent = `Ran ${n} shots without animating them.`;
+  }
+
+  // ================= Run / Pause =================
+  // Animated shots back to back (the same pace Run 5 Shots used to have)
+  // until paused. Stops by itself if the panel is hidden (Quiz / Game, or
+  // another qubit tab).
+  const RUN_HTML = '<svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="M1.5 0.5 L9.5 5 L1.5 9.5 Z"/></svg>Run';
+  const PAUSE_HTML = '<svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><rect x="1" y="0.5" width="3" height="9"/><rect x="6" y="0.5" width="3" height="9"/></svg>Pause';
+  const runBtn = document.getElementById("run-btn");
+  function shotControlsVisible(){ return document.getElementById("atom-controls").offsetParent !== null; }
+  function announce(msg){
+    const el = document.getElementById("run-announcer");
+    if (el) el.textContent = msg;
+  }
+  function setRunning(on){
+    if (on && !shotControlsVisible()) on = false;
+    if (running === on) return;
+    running = on;
+    runToken++;
+    runBtn.innerHTML = on ? PAUSE_HTML : RUN_HTML;
+    updateRunControls();
+    const statusEl = document.getElementById("qubit-status");
+    if (on){
+      if (showProgression) setShowProgression(false); // back to counts
+      statusEl.textContent = "Running: sending shots continuously.";
+      announce("Running. Sending shots continuously.");
+      runLoop(runToken);
     } else {
-      for (let i = 0; i < n; i++){
-        await runOneShotAnimated();
-      }
+      if (!animBusy) statusEl.textContent = "Paused.";
+      announce("Paused.");
     }
+  }
+  async function runLoop(token){
+    while (running && token === runToken){
+      if (!shotControlsVisible()){ setRunning(false); return; }
+      if (animBusy){ await wait(60); continue; } // a single shot is still finishing
+      await runOneShotAnimated();
+    }
+  }
+  runBtn.addEventListener("click", ()=> setRunning(!running));
+  // Pause as soon as the controls are hidden (another tab or mode): a
+  // display:none element resizes to 0x0, which fires the observer.
+  if (window.ResizeObserver){
+    new ResizeObserver(()=>{ if (running && !shotControlsVisible()) setRunning(false); })
+      .observe(document.getElementById("atom-controls"));
   }
 
   // ================= Init & event wiring =================
-  document.getElementById("send-1-btn").addEventListener("click", ()=> runShots(1));
-  document.getElementById("send-5-btn").addEventListener("click", ()=> runShots(5));
-  document.getElementById("send-1000-btn").addEventListener("click", ()=> runShots(1000));
-  document.getElementById("clear-counts-btn").addEventListener("click", resetCounts);
-  document.getElementById("show-prob-btn").addEventListener("click", ()=> setShowProgression(!showProgression));
+  document.getElementById("send-1-btn").addEventListener("click", ()=>{
+    if (animBusy || running) return;
+    if (showProgression) setShowProgression(false);
+    runOneShotAnimated();
+  });
+  document.getElementById("send-1000-btn").addEventListener("click", ()=> advanceShots(1000));
+  document.getElementById("clear-counts-btn").addEventListener("click", ()=>{
+    // While running, this lands between shots and the run carries on.
+    whenIdle(resetCounts);
+  });
+  document.getElementById("show-prob-btn").addEventListener("click", ()=>{
+    setRunning(false);
+    whenIdle(()=> setShowProgression(!showProgression));
+  });
   document.getElementById("reset-btn").addEventListener("click", ()=>{
-    if (animBusy) return;
+    setRunning(false);
+    whenIdle(resetExperiment);
+  });
+  function resetExperiment(){
     elements = [
       { id: nextId++, type: "source" },
       { id: nextId++, type: "gate", gateKind: "X" },
@@ -4753,7 +5008,7 @@
     document.getElementById("show-prob-btn").textContent = "Show Probabilities";
     document.getElementById("counts-summary").style.display = "";
     rebuildEverything();
-  });
+  }
   document.getElementById("speed-switch").querySelectorAll("button").forEach(btn=>{
     btn.addEventListener("click", ()=>{
       speed = btn.dataset.speed;
